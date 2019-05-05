@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5341568481344de4aa4b17b6d60560a0" Name="Diagram1" ZoomLevel="60">
+        <EntityTypeShape EntityType="gtaxidbModel.Admin" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.AdminNotification" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.AdminNotificationRead" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.AdminSetting" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.Booking_trx" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.City_queue" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.Driver" Width="1.5" PointX="6.75" PointY="3.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.Driver_token" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.DriverBooking" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.Errorlog" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.Feedback" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.Hotspot" Width="1.5" PointX="8.75" PointY="6.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.Hotspotpricing" Width="1.5" PointX="4.75" PointY="9.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.Journey" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.Preferred_driver" Width="1.5" PointX="10.75" PointY="4.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.SMShistory" Width="1.5" PointX="6.75" PointY="10.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.Suggested_Location" Width="1.5" PointX="10.75" PointY="7.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.User" Width="1.5" PointX="8.75" PointY="10.75" />
+        <EntityTypeShape EntityType="gtaxidbModel.User_token" Width="1.5" PointX="10.75" PointY="10.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Unauthenticated";
+    Layout = "~/Views/Shared/_Layout_Empty.cshtml";
+}
+
+<script type="text/javascript">
+    @if(ViewBag.ReturnURL != null)
+    {   <text>
+        window.location.href = "@Url.Action("Login", "Admin")?ReturnURL=@ViewBag.ReturnURL";
+        parent.window.location = "@Url.Action("Login", "Admin")?ReturnURL=@ViewBag.ReturnURL";
+        </text>
+    }
+    else
+    {
+        <text>
+        window.location.href = "@Url.Action("Login","Admin")";
+        parent.window.location = "@Url.Action("Login", "Admin")";
+        </text>
+    }
+</script>

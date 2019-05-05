@@ -1,0 +1,23 @@
+alter table adminsetting 
+add current_driver_ios_app_version nvarchar(255)
+
+alter table adminsetting 
+add current_driver_android_app_version nvarchar(255)
+
+alter table adminsetting 
+add current_user_ios_app_version nvarchar(255)
+
+alter table adminsetting 
+add current_user_android_app_version nvarchar(255)
+
+alter table user_token 
+add app_version nvarchar(255) 
+
+alter table user_token 
+add app_type int null 
+
+alter table driver_token 
+add app_version nvarchar(255) 
+
+alter table driver_token 
+add app_type int null 

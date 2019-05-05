@@ -1,0 +1,59 @@
+﻿@model GentingTaxi.Models.HotspotPricing
+@{
+    ViewBag.Title = "Recommended Location Add Pricing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Title { Add Pricing }
+
+@section Styles{
+}
+@section Scripts{
+}
+@section ContentHeader{
+}
+
+<div class="row">
+    @using (Html.BeginForm("AddPricing", "RecommendedLocation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {        
+        <!-- left column -->
+        <div class="col-md-6">
+            <!-- Personal Info -->
+            <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">Pricing Information</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+            <div class="form-group">
+                @Html.LabelFor(m => m.FromHotspotId)
+                <select id="FromHotspotId" name="FromHotspotId" class="btn btn-default form-control">
+                    <option value="0" style="display: none;">Choose a Location</option>
+                    @foreach (var v in (List<GentingTaxi.Models.Hotspot>)ViewBag.HotspotList)
+                    {
+                        <option value="@v.HotspotId">@v.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ToHotspotId)
+                <select id="ToHotspotId" name="ToHotspotId" class="btn btn-default form-control">
+                    <option value="0" style="display: none;">Choose a Location</option>
+                    @foreach (var v in (List<GentingTaxi.Models.Hotspot>)ViewBag.HotspotList)
+                    {
+                        <option value="@v.HotspotId">@v.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Price)
+                @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+            </div>
+            </div><!-- /.box-body -->
+
+            <div class="box-footer text-right">
+                <input type="submit" class="btn btn-primary" value="Submit" />
+            </div>
+            </div><!-- /.box -->
+
+        </div><!--/.col (left) -->
+    }
+</div><!-- /.row -->

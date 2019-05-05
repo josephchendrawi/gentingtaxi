@@ -1,0 +1,81 @@
+﻿@model GentingTaxi.Models.Hotspot
+@{
+    ViewBag.Title = "Recommended Location Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Title { Add }
+
+@section Styles{
+}
+@section Scripts{
+}
+@section ContentHeader{
+}
+
+<div class="row">
+    @using (Html.BeginForm("Add", "RecommendedLocation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {        
+        <!-- left column -->
+        <div class="col-md-6">
+            <!-- Location Info -->
+            <div class="box box-danger">
+                <div class="box-header">
+                    <h3 class="box-title">Location Information</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name)
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            @Html.LabelFor(m => m.Latitude)
+                            @Html.TextBoxFor(m => m.Latitude, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            @Html.LabelFor(m => m.Longitude)
+                            @Html.TextBoxFor(m => m.Longitude, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div><!-- /.box-body -->
+
+                <div class="box-footer text-right">
+                    <input type="submit" class="btn btn-primary" value="Submit" />
+                </div>
+            </div><!-- /.box -->
+
+        </div><!--/.col (left) --> 
+        
+        <!-- right column -->
+        <div class="col-md-6">
+            <!-- Map -->
+            <div class="box box-success">
+                <div class="box-header">
+                    <h3 class="box-title">Location Information</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <fieldset class="gllpLatlonPicker">
+                        <input type="text" class="gllpSearchField form-control inline w200" />
+                        <input type="button" class="gllpSearchButton btn btn-primary" value="Search" style="margin-top: -4px;">
+                        <br/><br />
+                        <div class="gllpMap" style="height: 400px;">Google Maps</div>
+                        <input type="hidden" class="gllpLatitude" value="3.4243528153479383" />
+                        <input type="hidden" class="gllpLongitude" value="101.79307758808136" />
+                        <input type="hidden" class="gllpZoom" value="16" />
+                    </fieldset>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+
+        </div><!--/.col (right) -->
+    }
+</div><!-- /.row -->
+
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDBe9tprDB4drAPp-O4-Ypcer1EOvUUvrQ" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/gmaps-latlon-picker/jquery-gmaps-latlon-picker.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).bind("location_changed", function (event, object) {
+        $('#Latitude').val($(".gllpLatitude").val());
+        $('#Longitude').val($(".gllpLongitude").val());
+    });
+</script>

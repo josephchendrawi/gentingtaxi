@@ -1,0 +1,364 @@
+﻿@model GentingTaxi.Models.BookingTrx
+@{
+    ViewBag.Title = "BookingTrx Details - " + Model.BookingTrxId + " " + Model.StatusVM.StatusName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Title { @ViewBag.Title.Replace(Model.StatusVM.StatusName, "") }
+@section ContentHeader{
+    <a class="btn btn-flat btn-@Model.StatusVM.StatusColor no-event">
+        @Model.StatusVM.StatusName
+    </a>
+
+    @if (Model.ManualAssignPending == true) { 
+        <a class="btn btn-sm btn-default" href="@Url.Action("Assign", "BookingTrx", new { Id = Model.BookingTrxId })">
+            <i class="fa fa-check-circle"></i> Assign
+        </a>
+    }
+}
+
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+        <!-- User Details -->
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">User</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.User.Name)
+                    <div>
+                        @Model.User.Name
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.User.Username)
+                    <div>
+                        @Model.User.Username
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.User.Email)
+                    <div>
+                        @Model.User.Email
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.User.Phone)
+                    <div>
+                        @Model.User.Phone
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+            <div class="box-footer text-right">
+                <a href="@Url.Action("View","User")/@Model.User.UserId">More</a>
+            </div>
+        </div><!-- /.box -->
+
+    </div><!-- /.left column -->
+
+    @if (Model.Driver.DriverId != 0) { 
+    <!-- right column -->
+    <div class="col-md-6">
+        <!-- Driver Details -->
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">Driver</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Driver.Name)
+                            <div>
+                                @Model.Driver.Name
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Driver.Gender)
+                            <div>
+                                @if (Model.Driver.Gender == 1)
+                                {
+                                    @Html.Raw("Male")
+                                }
+                                else if (Model.Driver.Gender == 2)
+                                {
+                                    @Html.Raw("Female")
+                                }
+                                else
+                                {
+                                    @Html.Raw("-")
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Driver.CarPlateNo)
+                            <div>
+                                @Model.Driver.CarPlateNo
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        @if (Model.Driver.PhotoURL != null && Model.Driver.PhotoURL != "")
+                        {
+                            <div class="img-wrapper">
+                                <a href="@Model.Driver.PhotoURL" class="fancybox" title="@Model.Driver.PhotoFileName">
+                                    <div>
+                                        <img src="@Model.Driver.PhotoURL" class="img-responsive img-center img-out-of-box" />
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+            <div class="box-footer text-right">
+                <a href="@Url.Action("View","Driver")/@Model.Driver.DriverId">More</a>
+            </div>
+        </div><!-- /.box -->
+
+    </div><!-- /.right-column -->
+    }
+</div>
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+        <!-- Location Info -->
+        <div class="box box-danger">
+            <div class="box-header">
+                <h3 class="box-title">Location Info</h3>
+            </div>
+            <div class="box-body">
+                @Html.HiddenFor(m => m.From.Latitude)
+                @Html.HiddenFor(m => m.From.Longitude)
+                @Html.HiddenFor(m => m.To.Latitude)
+                @Html.HiddenFor(m => m.To.Longitude)
+                @Html.HiddenFor(m => m.FromLocation)
+                @Html.HiddenFor(m => m.ToLocation)
+
+                <div class="form-group">
+                    <div id="map" style="height: 350px;"></div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.FromLocation)
+                    <div>
+                        @Model.FromLocation (@Model.From.Latitude, @Model.From.Longitude)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ToLocation)
+                    <div>
+                        @Model.ToLocation (@Model.To.Latitude, @Model.To.Longitude)
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+
+    </div><!--/.col (left) -->
+                
+    <!-- right column -->
+    <div class="col-md-6">
+        <!-- Booking Details -->
+        <div class="box box-warning">
+            <div class="box-header">
+                <h3 class="box-title">Booking Details</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.BookingDateTime)
+                    <div>
+                        @if (Model.BookingDateTime != null)
+                        {
+                            @Model.BookingDateTime.Value.ToString("dd MMM yyyy hh:mm tt")
+                        }
+                        else
+                        {
+                            @Html.Raw("-")
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.RequestCarType)
+                    <div>
+                        @Model.RequestCarTypeName
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EstDistance)
+                    <div>
+                        @Model.EstDistance
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EstFares)
+                    <div>
+                        @Model.EstFares
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Start)
+                    <div>
+                        @if (Model.Start != null)
+                        {
+                            @Model.Start.Value.ToString("dd MMM yyyy hh:mm tt")
+                        }
+                        else
+                        {
+                            @Html.Raw("-")
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.End)
+                    <div>
+                        @if (Model.End != null)
+                        {
+                            @Model.End.Value.ToString("dd MMM yyyy hh:mm tt")
+                        }
+                        else
+                        {
+                            @Html.Raw("-")
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Remarks)
+                    <div>
+                        @Model.Remarks
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+
+    </div><!--/.col (right) -->
+</div><!-- /.row -->
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var style = [{
+            "stylers": [{
+                "visibility": "off"
+            }]
+        }, {
+            "featureType": "road",
+            "stylers": [{
+                "visibility": "on"
+            }, {
+                "color": "#ffffff"
+            }]
+        }, {
+            "featureType": "road.arterial",
+            "stylers": [{
+                "visibility": "on"
+            }, {
+                "color": "#fee379"
+            }]
+        }, {
+            "featureType": "road.highway",
+            "stylers": [{
+                "visibility": "on"
+            }, {
+                "color": "#fee379"
+            }]
+        }, {
+            "featureType": "landscape",
+            "stylers": [{
+                "visibility": "on"
+            }, {
+                "color": "#f3f4f4"
+            }]
+        }, {
+            "featureType": "water",
+            "stylers": [{
+                "visibility": "on"
+            }, {
+                "color": "#7fc8ed"
+            }]
+        }, {}, {
+            "featureType": "road",
+            "elementType": "labels",
+            "stylers": [{
+                "visibility": "off"
+            }]
+        }, {
+            "featureType": "poi.park",
+            "elementType": "geometry.fill",
+            "stylers": [{
+                "visibility": "on"
+            }, {
+                "color": "#83cead"
+            }]
+        }, {
+            "elementType": "labels",
+            "stylers": [{
+                "visibility": "off"
+            }]
+        }, {
+            "featureType": "landscape.man_made",
+            "elementType": "geometry",
+            "stylers": [{
+                "weight": 0.9
+            }, {
+                "visibility": "off"
+            }]
+        }]
+
+        //  Make an array of the LatLng's of the markers you want to show
+        var LatLngList = new Array(new google.maps.LatLng($('#From_Latitude').val(), $('#From_Longitude').val()), new google.maps.LatLng($('#To_Latitude').val(), $('#To_Longitude').val()));
+        //  Create a new viewpoint bound
+        var bounds = new google.maps.LatLngBounds();
+        //  Go through each...
+        for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
+            //  And increase the bounds to take this point
+            bounds.extend(LatLngList[i]);
+        }
+
+        var options = {
+            scrollwheel: false,
+            zoom: 14,
+            center: bounds.getCenter(),
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            styles: style
+        };
+        var map = new google.maps.Map($('#map')[0], options);
+        //  Fit these bounds to the map
+        map.fitBounds(bounds);
+
+        var icons = [
+            {
+                url: '@Url.Content("~/Content/dist/img/marker-from.png")',
+                origin: new google.maps.Point(0, 0)
+            },
+            {
+                url: '@Url.Content("~/Content/dist/img/marker-to.png")',
+                origin: new google.maps.Point(0, 0)
+            }
+        ];
+
+        // Info Window Content
+        var infoWindowContent = [
+            ['Pickup at <label>' + $('#FromLocation').val() + '</label>'],
+            ['Ended at <label>' + $('#ToLocation').val() + '</label>']
+        ];
+        
+        // Display multiple markers on a map
+        var infoWindow = new google.maps.InfoWindow(), marker, i;
+
+        for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
+            var marker = new google.maps.Marker({
+                position: LatLngList[i],
+                map: map,
+                icon: icons[i],
+            });
+            
+            // Allow each marker to have an info window    
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    infoWindow.setContent(infoWindowContent[i][0]);
+                    infoWindow.open(map, marker);
+                }
+            })(marker, i));
+        }
+    });
+</script>

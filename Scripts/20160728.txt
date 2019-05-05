@@ -1,0 +1,2 @@
+alter table driver 
+add flg_ace_booking bit null

@@ -1,0 +1,203 @@
+﻿@model GentingTaxi.Models.DriverEdit
+@{
+    ViewBag.Title = "Edit Driver";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Title { @ViewBag.Title }
+
+@section Styles{
+}
+@section Scripts{
+    <!-- date-dropdowns -->
+    <script src="@Url.Content("~/Content/date-dropdowns/jquery.date-dropdowns.min.js")" type="text/javascript"></script>
+    <script type="text/javascript">        
+        $(function () {
+            $("#Birth_Date").dateDropdowns({
+                submitFieldName: "BirthDate",
+                defaultDateFormat: "mm/dd/yyyy",
+                submitFormat: "mm/dd/yyyy",
+                dropdownClass: "form-control form-control-inline-auto"
+            });
+        });
+    </script>
+}
+
+@section ContentHeader{
+    <select class="btn btn-default btn-border" id="status">
+        @foreach (var v in Helper.GetEnumItemList("DriverStatus"))
+        {
+            if (Model.Status.ToString() == v.Value)
+            {
+                <option value="@v.Value" selected>@v.Text</option>
+            }
+            else
+            {
+                <option value="@v.Value">@v.Text</option>
+            }
+        }
+    </select>
+}
+
+<div class="row">
+    @using (Html.BeginForm("Edit", "Driver", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {        
+        @Html.HiddenFor(m => m.DriverId)
+        @Html.HiddenFor(m => m.PhotoURL)
+        @Html.HiddenFor(m => m.Status)
+        <!-- left column -->
+        <div class="col-md-6">
+            <!-- Personal Info -->
+            <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">Personal Information</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.IDCardNo)
+                @Html.TextBoxFor(m => m.IDCardNo, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.BirthDate)
+                @Html.TextBox("Birth_Date", Model.BirthDate, "{0:MM/dd/yyyy}")
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Phone)
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Gender)
+                <div class="input-group">
+                    @foreach (var v in Helper.GetEnumItemList("Gender")) { 
+                        @Html.RadioButtonFor(m => m.Gender, v.Value, new { @class = "minimal" }) <span>@v.Text &nbsp;</span>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "(unchanged)" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword)
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+            </div><!-- /.box-body -->
+
+            <div class="box-footer text-right">
+                <input type="submit" class="btn btn-primary" value="Submit" />
+            </div>
+            </div><!-- /.box -->
+
+        </div><!--/.col (left) -->
+                
+        <!-- right column -->
+        <div class="col-md-6">
+            <!-- Car Info -->
+            <div class="box box-danger">
+                <div class="box-header">
+                    <h3 class="box-title">Car Information</h3>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.CarPlateNo)
+                        @Html.TextBoxFor(m => m.CarPlateNo, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.CarType)
+                        @Html.DropDownListFor(m => m.CarType, Helper.GetEnumItemList("Cartype"), new { @class = "form-control" })
+                    </div>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+
+            <!-- Photo -->
+            <div class="box box-success">
+                <div class="box-header">
+                    <h3 class="box-title">Photo</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="file" name="files" id="files" accept="image/*" @*multiple="multiple"*@ style="display: none;" />
+                            <span class="btn btn-success" id="btn-browse">Browse</span>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="line-light"></div>
+                            <div id="files-info">
+                                @if (Model.PhotoURL != null && Model.PhotoURL != "") { 
+                                <div class="img-wrapper">
+                                    <a href="@Model.PhotoURL" class="fancybox" title="@Model.PhotoFileName">
+                                        <div class="img-box-round">
+                                            <img src="@Model.PhotoURL" class="img-responsive img-center img-responsive-flex" />
+                                        </div>
+                                    </a>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+
+        </div><!--/.col (right) -->
+    }
+</div><!-- /.row -->
+
+<script type="text/javascript">
+    $("form").submit(function (event) {
+        var status = $("#status option:selected").val();
+        $('#Status').val(status);
+    });
+</script>
+
+<!-- File Upload-->
+<script type="text/javascript">
+    $("#btn-browse").click(function () {
+        $("#files").click();
+    });
+
+    $('#files').change(function () {
+        //var html = "<div class='padding-top-bottom-12'>";
+
+        $('#files-info').html("");
+        var files = $("#files")[0].files;
+        for (var i = 0; i < files.length; i++) {
+            var size;
+            if (files[i].size > 1048576) {
+                size = (files[i].size / 1048576).toFixed(1);
+                size += " MB";
+            }
+            else if (files[i].size > 1024) {
+                size = (files[i].size / 1024).toFixed(1);
+                size += " KB";
+            }
+            else {
+                size = files[i].size;
+                size += " B";
+            }
+
+            var reader = new FileReader();
+            reader.fileName = files[i].name;
+            reader.Size = size;
+            reader.fileType = files[i].name.substring(files[i].name.lastIndexOf('.') + 1);
+            reader.onload = function (e) {
+                var img = "<div class='img-center fa fa-file-text'></div>";
+                var type = e.target.fileType;
+                if (type == "jpg" || type == "jpeg" || type == "png" || type == "gif") {
+                    img = "<img src='" + e.target.result + "' class='img-responsive-flex-landscape img-center' />";
+                }
+                var imghtml = "<div class=\"img-wrapper\">"
+                        + "<a href='" + e.target.result + "' class='fancybox' title='" + e.target.fileName + " - " + e.target.Size + "'>"
+                        + "<div class='img-box-round'>"
+                        + img
+                        + "</div>"
+                        + "</a>"
+                        + "</div>";
+                $('#files-info').append(imghtml);
+            }
+            reader.readAsDataURL(files[i]);
+        }
+    });
+</script>

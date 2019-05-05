@@ -1,0 +1,151 @@
+﻿@model GentingTaxi.Models.User
+@{
+    ViewBag.Title = "User Feedback";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Title { @ViewBag.Title }
+@section ContentHeader{
+
+}
+<!-- DATA TABLES -->
+<link href="@Url.Content("~/Content/plugins/datatables/dataTables.bootstrap.css")" rel="stylesheet" type="text/css" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Feedback</h3>
+                <div class="box-tools pull-right">
+                    <div class="has-feedback">
+                        <input type="text" class="form-control input-sm" placeholder="Search Mail" />
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </div>
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body no-padding">
+                <div class="mailbox-controls">
+                    <!-- Check all button -->
+                    <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                        <button class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                        <button class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                    </div><!-- /.btn-group -->
+                    <button class="btn btn-default btn-sm btn-refresh"><i class="fa fa-refresh"></i></button>
+                </div>
+                <div class="table-responsive mailbox-messages">
+                    <table class="table table-hover table-striped" id="tbl-list">
+                        <tbody></tbody>
+                    </table><!-- /.table -->
+                </div><!-- /.mail-box-messages -->
+            </div><!-- /.box-body -->
+            <div class="box-footer no-padding">
+                <div class="mailbox-controls">
+                    <!-- Check all button -->
+                    <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                        <button class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                        <button class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                    </div><!-- /.btn-group -->
+                    <button class="btn btn-default btn-sm btn-refresh"><i class="fa fa-refresh"></i></button>
+                </div>
+            </div>
+        </div><!-- /. box -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- DATA TABES SCRIPT -->
+<script src="@Url.Content("~/Content/plugins/datatables/jquery.dataTables.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/plugins/datatables/dataTables.bootstrap.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(function () {
+        loadListTable();
+        
+        //Click row event
+        $('#tbl-list tbody').on('click', 'tr', function () {
+            var tr = $(this).closest("tr");
+            var Id = tr.find("[name='Id[]']").val();
+            
+            window.location.href = "@Url.Action("FeedbackDetails", "User")/" + Id;
+        });
+        
+        //Enable check and uncheck all functionality
+        $(".checkbox-toggle").click(function () {
+            var clicks = $(this).data('clicks');
+            if (clicks) {
+                //Uncheck all checkboxes
+                $("input[type='checkbox'].chk_box").iCheck("uncheck");
+            } else {
+                //Check all checkboxes
+                $("input[type='checkbox'].chk_box").iCheck("check");
+            }
+            $(this).data("clicks", !clicks);
+        });
+    });
+
+    function loadListTable() {
+        var oTable = $("#tbl-list").DataTable({
+            "bServerSide": true,
+            "sAjaxSource": "@Url.Action("ListUserFeedback", "User")",
+            "bProcessing": true,
+            "iDisplayLength": 25,
+            "bStateSave": true,
+            "sDom": 'trpi',
+            "fnStateSave": function (oSettings, oData) {
+                localStorage.setItem( 'DataTablesUserFeedback', JSON.stringify(oData) );
+            },
+            "fnStateLoad": function (oSettings) {
+                return JSON.parse(localStorage.getItem('DataTablesUserFeedback'));
+            },
+            "aoColumns": [
+                    {
+                        "mData": "FeedbackId",
+                        "sName": "FeedbackId",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (Obj) {
+                            return "<input type='checkbox' class='chk_box' value='" + Obj.aData['FeedbackId'] + "' name='chk_Id[]' />" +
+                                    "<input type='hidden' value='" + Obj.aData['FeedbackId'] + "' name='Id[]' />";
+                        },
+                        "sWidth": "3%"
+                    },
+                    {
+                        "mData": null,
+                        "fnRender": function (Obj) {
+                            return Obj.aData['Name'] + " &lt;" + Obj.aData['Email'] + "&gt;";
+                        },
+                        "sWidth": "27%"
+                    },
+                    {
+                        "mData": null,
+                        "fnRender": function (Obj) {
+                            return Obj.aData['Content'];
+                        },
+                        "sWidth": "60%"
+                    },
+                    {
+                        "mData": "RelativeTime",
+                        "sWidth": "10%"
+                    },
+            ],
+            "fnDrawCallback": function (oSettings) {
+                //table loaded event
+                $("#tbl-list > tbody input[type=checkbox]").iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue',
+                });
+            }
+        });
+
+        //add class to jquery.datatables filter
+        $('.dataTables_length select').addClass("btn btn-default");
+        $('.dataTables_filter input').addClass("form-control");
+        $('table thead').css('visibility', 'hidden');
+
+        $(".btn-refresh").click(function () {
+            oTable.fnClearTable(true);
+        });
+    }
+</script>

@@ -1,0 +1,878 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="gtaxidbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="adminId" />
+          </Key>
+          <Property Name="adminId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" />
+          <Property Name="username" Type="nvarchar" MaxLength="255" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" />
+          <Property Name="password_salt" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="AdminNotification">
+          <Key>
+            <PropertyRef Name="notificationId" />
+          </Key>
+          <Property Name="notificationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="message" Type="nvarchar(max)" />
+          <Property Name="notification_type" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="AdminNotificationRead">
+          <Key>
+            <PropertyRef Name="notificationId" />
+            <PropertyRef Name="adminId" />
+          </Key>
+          <Property Name="notificationId" Type="int" Nullable="false" />
+          <Property Name="adminId" Type="int" Nullable="false" />
+          <Property Name="read_time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="AdminSetting">
+          <Key>
+            <PropertyRef Name="adminsettingid" />
+          </Key>
+          <Property Name="adminsettingid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="searchdriverbuffer_sec" Type="bigint" />
+          <Property Name="driveravailabilityrange_min" Type="int" />
+          <Property Name="location_range_miles" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="current_driver_ios_app_version" Type="nvarchar" MaxLength="255" />
+          <Property Name="current_driver_android_app_version" Type="nvarchar" MaxLength="255" />
+          <Property Name="current_user_ios_app_version" Type="nvarchar" MaxLength="255" />
+          <Property Name="current_user_android_app_version" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Booking_trx">
+          <Key>
+            <PropertyRef Name="bookingId" />
+          </Key>
+          <Property Name="bookingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="booking_datetime" Type="datetime" />
+          <Property Name="userId" Type="int" />
+          <Property Name="assigned_driverId" Type="int" />
+          <Property Name="booking_status" Type="int" />
+          <Property Name="request_Cartype" Type="int" />
+          <Property Name="from_lat" Type="decimal" Precision="18" Scale="7" />
+          <Property Name="from_lng" Type="decimal" Precision="18" Scale="7" />
+          <Property Name="to_Lat" Type="decimal" Precision="18" Scale="7" />
+          <Property Name="to_lng" Type="decimal" Precision="18" Scale="7" />
+          <Property Name="est_Distance" Type="decimal" Precision="18" Scale="7" />
+          <Property Name="est_Fares" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="manual_Assign_Flag" Type="bit" />
+          <Property Name="pickup_Datetime" Type="datetime" />
+          <Property Name="journey_End_Datetime" Type="datetime" />
+          <Property Name="usercall_flag" Type="bit" />
+          <Property Name="drivercall_flag" Type="bit" />
+          <Property Name="cancelleby_flag" Type="bit" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="last_updated" Type="datetime" />
+          <Property Name="from_locationname" Type="varchar" MaxLength="255" />
+          <Property Name="to_locationname" Type="varchar" MaxLength="255" />
+          <Property Name="remarks" Type="varchar" MaxLength="255" />
+          <Property Name="feedbackstatus" Type="int" />
+          <Property Name="manual_Assign_AdminId" Type="int" />
+          <Property Name="manual_Assign_Datetime" Type="datetime" />
+          <Property Name="fdid_selected" Type="int" />
+        </EntityType>
+        <EntityType Name="City_queue">
+          <Key>
+            <PropertyRef Name="kl_cityqueue" />
+          </Key>
+          <Property Name="kl_cityqueue" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="driverId" Type="int" />
+        </EntityType>
+        <EntityType Name="Driver">
+          <Key>
+            <PropertyRef Name="driverId" />
+          </Key>
+          <Property Name="driverId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" />
+          <Property Name="ic" Type="varchar" MaxLength="255" />
+          <Property Name="gender" Type="int" />
+          <Property Name="car_Plate" Type="varchar" MaxLength="255" />
+          <Property Name="photo_url" Type="varchar" MaxLength="255" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" />
+          <Property Name="password_salt" Type="nvarchar" MaxLength="255" />
+          <Property Name="status" Type="int" />
+          <Property Name="car_Type" Type="int" />
+          <Property Name="priority" Type="int" />
+          <Property Name="priority_percentage" Type="decimal" Precision="18" Scale="7" />
+          <Property Name="current_lat" Type="decimal" Precision="18" Scale="7" />
+          <Property Name="current_lng" Type="decimal" Precision="18" Scale="7" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="last_updated" Type="datetime" />
+          <Property Name="activation_code" Type="varchar" MaxLength="255" />
+          <Property Name="phone" Type="varchar" MaxLength="255" />
+          <Property Name="dateofbirth" Type="datetime" />
+          <Property Name="code_sent_date" Type="datetime" />
+          <Property Name="flg_ace_booking" Type="bit" />
+          <Property Name="islogin_flag" Type="bit" />
+        </EntityType>
+        <EntityType Name="Driver_token">
+          <Key>
+            <PropertyRef Name="unique_id" />
+          </Key>
+          <Property Name="unique_id" Type="int" Nullable="false" />
+          <Property Name="token" Type="nvarchar" MaxLength="255" />
+          <Property Name="token_salt" Type="nvarchar" MaxLength="255" />
+          <Property Name="token_expire" Type="datetime" />
+          <Property Name="os" Type="nvarchar" MaxLength="255" />
+          <Property Name="os_version" Type="nvarchar" MaxLength="255" />
+          <Property Name="model" Type="nvarchar" MaxLength="255" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="last_updated" Type="datetime" />
+          <Property Name="deviceid" Type="nvarchar" MaxLength="255" />
+          <Property Name="app_version" Type="nvarchar" MaxLength="255" />
+          <Property Name="app_type" Type="int" />
+        </EntityType>
+        <EntityType Name="DriverBookings">
+          <Key>
+            <PropertyRef Name="driverBookingsId" />
+          </Key>
+          <Property Name="driverBookingsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="driverId" Type="int" Nullable="false" />
+          <Property Name="bookingId" Type="int" Nullable="false" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="last_updated" Type="datetime" />
+          <Property Name="status" Type="int" />
+          <Property Name="response_datettime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Errorlog">
+          <Key>
+            <PropertyRef Name="errorlogid" />
+          </Key>
+          <Property Name="errorlogid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="errormessage" Type="varchar" MaxLength="500" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="errorsource" Type="varchar" MaxLength="500" />
+          <Property Name="errorstacktrace" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="feedbackId" />
+          </Key>
+          <Property Name="feedbackId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userId" Type="int" />
+          <Property Name="remarks" Type="varchar" MaxLength="255" />
+          <Property Name="status" Type="int" />
+          <Property Name="bookingid" Type="int" />
+        </EntityType>
+        <EntityType Name="Hotspot">
+          <Key>
+            <PropertyRef Name="hotspotid" />
+          </Key>
+          <Property Name="hotspotid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hotspotname" Type="varchar" MaxLength="255" />
+          <Property Name="hotspot_lat" Type="decimal" Precision="18" Scale="7" />
+          <Property Name="hotspot_lng" Type="decimal" Precision="18" Scale="7" />
+          <Property Name="status" Type="int" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="last_updated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Hotspotpricing">
+          <Key>
+            <PropertyRef Name="hotspotpricingid" />
+          </Key>
+          <Property Name="hotspotpricingid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="from_hotspot" Type="int" />
+          <Property Name="to_hotspot" Type="int" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="last_updated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Journey">
+          <Key>
+            <PropertyRef Name="journeyId" />
+          </Key>
+          <Property Name="journeyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="bookingId" Type="int" />
+          <Property Name="current_datetime" Type="datetime" />
+          <Property Name="current_lat" Type="decimal" Precision="18" Scale="7" />
+          <Property Name="current_lng" Type="decimal" Precision="18" Scale="7" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="last_updated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Preferred_driver">
+          <Key>
+            <PropertyRef Name="preferred_driverId" />
+          </Key>
+          <Property Name="preferred_driverId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="driverId" Type="int" />
+          <Property Name="userId" Type="int" />
+          <Property Name="status" Type="int" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="last_Updated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SMShistory">
+          <Key>
+            <PropertyRef Name="smshistoryId" />
+          </Key>
+          <Property Name="smshistoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="message" Type="varchar" MaxLength="255" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="driverId" Type="int" />
+          <Property Name="userId" Type="int" />
+          <Property Name="phoneNo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Suggested_Location">
+          <Key>
+            <PropertyRef Name="locationId" />
+          </Key>
+          <Property Name="locationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="locationName" Type="varchar" MaxLength="50" />
+          <Property Name="location_lat" Type="decimal" Precision="18" Scale="7" />
+          <Property Name="location_lng" Type="decimal" Precision="18" Scale="7" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="255" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" />
+          <Property Name="password_salt" Type="nvarchar" MaxLength="255" />
+          <Property Name="activation_status" Type="int" />
+          <Property Name="activation_code" Type="varchar" MaxLength="255" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="last_updated" Type="datetime" />
+          <Property Name="host_address" Type="varchar" MaxLength="255" />
+          <Property Name="code_sent_date" Type="datetime" />
+          <Property Name="islogin_flag" Type="bit" />
+        </EntityType>
+        <EntityType Name="User_token">
+          <Key>
+            <PropertyRef Name="unique_id" />
+          </Key>
+          <Property Name="unique_id" Type="int" Nullable="false" />
+          <Property Name="token" Type="nvarchar" MaxLength="255" />
+          <Property Name="token_salt" Type="nvarchar" MaxLength="255" />
+          <Property Name="token_expire" Type="datetime" />
+          <Property Name="os" Type="nvarchar" MaxLength="255" />
+          <Property Name="os_version" Type="nvarchar" MaxLength="255" />
+          <Property Name="model" Type="nvarchar" MaxLength="255" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="last_updated" Type="datetime" />
+          <Property Name="deviceId" Type="nvarchar" MaxLength="255" />
+          <Property Name="app_version" Type="nvarchar" MaxLength="255" />
+          <Property Name="app_type" Type="int" />
+        </EntityType>
+        <EntityContainer Name="gtaxidbModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AdminNotification" EntityType="Self.AdminNotification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AdminNotificationRead" EntityType="Self.AdminNotificationRead" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AdminSetting" EntityType="Self.AdminSetting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Booking_trx" EntityType="Self.Booking_trx" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="City_queue" EntityType="Self.City_queue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Driver" EntityType="Self.Driver" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Driver_token" EntityType="Self.Driver_token" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DriverBookings" EntityType="Self.DriverBookings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Errorlog" EntityType="Self.Errorlog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotspot" EntityType="Self.Hotspot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotspotpricing" EntityType="Self.Hotspotpricing" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Journey" EntityType="Self.Journey" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Preferred_driver" EntityType="Self.Preferred_driver" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SMShistory" EntityType="Self.SMShistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Suggested_Location" EntityType="Self.Suggested_Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_token" EntityType="Self.User_token" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="gtaxidbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="gtaxidbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="gtaxidbModel.Admin" />
+          <EntitySet Name="AdminNotifications" EntityType="gtaxidbModel.AdminNotification" />
+          <EntitySet Name="AdminNotificationReads" EntityType="gtaxidbModel.AdminNotificationRead" />
+          <EntitySet Name="AdminSettings" EntityType="gtaxidbModel.AdminSetting" />
+          <EntitySet Name="Booking_trx" EntityType="gtaxidbModel.Booking_trx" />
+          <EntitySet Name="City_queue" EntityType="gtaxidbModel.City_queue" />
+          <EntitySet Name="Drivers" EntityType="gtaxidbModel.Driver" />
+          <EntitySet Name="Driver_token" EntityType="gtaxidbModel.Driver_token" />
+          <EntitySet Name="DriverBookings" EntityType="gtaxidbModel.DriverBooking" />
+          <EntitySet Name="Errorlogs" EntityType="gtaxidbModel.Errorlog" />
+          <EntitySet Name="Feedbacks" EntityType="gtaxidbModel.Feedback" />
+          <EntitySet Name="Hotspots" EntityType="gtaxidbModel.Hotspot" />
+          <EntitySet Name="Hotspotpricings" EntityType="gtaxidbModel.Hotspotpricing" />
+          <EntitySet Name="Journeys" EntityType="gtaxidbModel.Journey" />
+          <EntitySet Name="Preferred_driver" EntityType="gtaxidbModel.Preferred_driver" />
+          <EntitySet Name="SMShistories" EntityType="gtaxidbModel.SMShistory" />
+          <EntitySet Name="Suggested_Location" EntityType="gtaxidbModel.Suggested_Location" />
+          <EntitySet Name="Users" EntityType="gtaxidbModel.User" />
+          <EntitySet Name="User_token" EntityType="gtaxidbModel.User_token" />
+        </EntityContainer>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="adminId" />
+          </Key>
+          <Property Name="adminId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="username" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="password_salt" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AdminNotification">
+          <Key>
+            <PropertyRef Name="notificationId" />
+          </Key>
+          <Property Name="notificationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="notification_type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AdminNotificationRead">
+          <Key>
+            <PropertyRef Name="notificationId" />
+            <PropertyRef Name="adminId" />
+          </Key>
+          <Property Name="notificationId" Type="Int32" Nullable="false" />
+          <Property Name="adminId" Type="Int32" Nullable="false" />
+          <Property Name="read_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="AdminSetting">
+          <Key>
+            <PropertyRef Name="adminsettingid" />
+          </Key>
+          <Property Name="adminsettingid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="searchdriverbuffer_sec" Type="Int64" />
+          <Property Name="driveravailabilityrange_min" Type="Int32" />
+          <Property Name="location_range_miles" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="current_driver_ios_app_version" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="current_driver_android_app_version" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="current_user_ios_app_version" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="current_user_android_app_version" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Booking_trx">
+          <Key>
+            <PropertyRef Name="bookingId" />
+          </Key>
+          <Property Name="bookingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="booking_datetime" Type="DateTime" Precision="3" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="assigned_driverId" Type="Int32" />
+          <Property Name="booking_status" Type="Int32" />
+          <Property Name="request_Cartype" Type="Int32" />
+          <Property Name="from_lat" Type="Decimal" Precision="18" Scale="7" />
+          <Property Name="from_lng" Type="Decimal" Precision="18" Scale="7" />
+          <Property Name="to_Lat" Type="Decimal" Precision="18" Scale="7" />
+          <Property Name="to_lng" Type="Decimal" Precision="18" Scale="7" />
+          <Property Name="est_Distance" Type="Decimal" Precision="18" Scale="7" />
+          <Property Name="est_Fares" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="manual_Assign_Flag" Type="Boolean" />
+          <Property Name="pickup_Datetime" Type="DateTime" Precision="3" />
+          <Property Name="journey_End_Datetime" Type="DateTime" Precision="3" />
+          <Property Name="usercall_flag" Type="Boolean" />
+          <Property Name="drivercall_flag" Type="Boolean" />
+          <Property Name="cancelleby_flag" Type="Boolean" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="last_updated" Type="DateTime" Precision="3" />
+          <Property Name="from_locationname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="to_locationname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="feedbackstatus" Type="Int32" />
+          <Property Name="manual_Assign_AdminId" Type="Int32" />
+          <Property Name="manual_Assign_Datetime" Type="DateTime" Precision="3" />
+          <Property Name="fdid_selected" Type="Int32" />
+        </EntityType>
+        <EntityType Name="City_queue">
+          <Key>
+            <PropertyRef Name="kl_cityqueue" />
+          </Key>
+          <Property Name="kl_cityqueue" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="driverId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Driver">
+          <Key>
+            <PropertyRef Name="driverId" />
+          </Key>
+          <Property Name="driverId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ic" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="Int32" />
+          <Property Name="car_Plate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="photo_url" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="password_salt" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="car_Type" Type="Int32" />
+          <Property Name="priority" Type="Int32" />
+          <Property Name="priority_percentage" Type="Decimal" Precision="18" Scale="7" />
+          <Property Name="current_lat" Type="Decimal" Precision="18" Scale="7" />
+          <Property Name="current_lng" Type="Decimal" Precision="18" Scale="7" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="last_updated" Type="DateTime" Precision="3" />
+          <Property Name="activation_code" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="dateofbirth" Type="DateTime" Precision="3" />
+          <Property Name="code_sent_date" Type="DateTime" Precision="3" />
+          <Property Name="flg_ace_booking" Type="Boolean" />
+          <Property Name="islogin_flag" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Driver_token">
+          <Key>
+            <PropertyRef Name="unique_id" />
+          </Key>
+          <Property Name="unique_id" Type="Int32" Nullable="false" />
+          <Property Name="token" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="token_salt" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="token_expire" Type="DateTime" Precision="3" />
+          <Property Name="os" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="os_version" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="model" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="last_updated" Type="DateTime" Precision="3" />
+          <Property Name="deviceid" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="app_version" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="app_type" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DriverBooking">
+          <Key>
+            <PropertyRef Name="driverBookingsId" />
+          </Key>
+          <Property Name="driverBookingsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="driverId" Type="Int32" Nullable="false" />
+          <Property Name="bookingId" Type="Int32" Nullable="false" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="last_updated" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="response_datettime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Errorlog">
+          <Key>
+            <PropertyRef Name="errorlogid" />
+          </Key>
+          <Property Name="errorlogid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="errormessage" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="errorsource" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="errorstacktrace" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="feedbackId" />
+          </Key>
+          <Property Name="feedbackId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="bookingid" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Hotspot">
+          <Key>
+            <PropertyRef Name="hotspotid" />
+          </Key>
+          <Property Name="hotspotid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hotspotname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="hotspot_lat" Type="Decimal" Precision="18" Scale="7" />
+          <Property Name="hotspot_lng" Type="Decimal" Precision="18" Scale="7" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="last_updated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Hotspotpricing">
+          <Key>
+            <PropertyRef Name="hotspotpricingid" />
+          </Key>
+          <Property Name="hotspotpricingid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="from_hotspot" Type="Int32" />
+          <Property Name="to_hotspot" Type="Int32" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="last_updated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Journey">
+          <Key>
+            <PropertyRef Name="journeyId" />
+          </Key>
+          <Property Name="journeyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="bookingId" Type="Int32" />
+          <Property Name="current_datetime" Type="DateTime" Precision="3" />
+          <Property Name="current_lat" Type="Decimal" Precision="18" Scale="7" />
+          <Property Name="current_lng" Type="Decimal" Precision="18" Scale="7" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="last_updated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Preferred_driver">
+          <Key>
+            <PropertyRef Name="preferred_driverId" />
+          </Key>
+          <Property Name="preferred_driverId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="driverId" Type="Int32" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="last_Updated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SMShistory">
+          <Key>
+            <PropertyRef Name="smshistoryId" />
+          </Key>
+          <Property Name="smshistoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="message" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="driverId" Type="Int32" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="phoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Suggested_Location">
+          <Key>
+            <PropertyRef Name="locationId" />
+          </Key>
+          <Property Name="locationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="locationName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="location_lat" Type="Decimal" Precision="18" Scale="7" />
+          <Property Name="location_lng" Type="Decimal" Precision="18" Scale="7" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="password_salt" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="activation_status" Type="Int32" />
+          <Property Name="activation_code" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="last_updated" Type="DateTime" Precision="3" />
+          <Property Name="host_address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="code_sent_date" Type="DateTime" Precision="3" />
+          <Property Name="islogin_flag" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="User_token">
+          <Key>
+            <PropertyRef Name="unique_id" />
+          </Key>
+          <Property Name="unique_id" Type="Int32" Nullable="false" />
+          <Property Name="token" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="token_salt" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="token_expire" Type="DateTime" Precision="3" />
+          <Property Name="os" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="os_version" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="model" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="last_updated" Type="DateTime" Precision="3" />
+          <Property Name="deviceId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="app_version" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="app_type" Type="Int32" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="gtaxidbModelStoreContainer" CdmEntityContainer="gtaxidbEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="gtaxidbModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="password_salt" ColumnName="password_salt" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="adminId" ColumnName="adminId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdminNotifications">
+            <EntityTypeMapping TypeName="gtaxidbModel.AdminNotification">
+              <MappingFragment StoreEntitySet="AdminNotification">
+                <ScalarProperty Name="notification_type" ColumnName="notification_type" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="notificationId" ColumnName="notificationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdminNotificationReads">
+            <EntityTypeMapping TypeName="gtaxidbModel.AdminNotificationRead">
+              <MappingFragment StoreEntitySet="AdminNotificationRead">
+                <ScalarProperty Name="read_time" ColumnName="read_time" />
+                <ScalarProperty Name="adminId" ColumnName="adminId" />
+                <ScalarProperty Name="notificationId" ColumnName="notificationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdminSettings">
+            <EntityTypeMapping TypeName="gtaxidbModel.AdminSetting">
+              <MappingFragment StoreEntitySet="AdminSetting">
+                <ScalarProperty Name="current_user_android_app_version" ColumnName="current_user_android_app_version" />
+                <ScalarProperty Name="current_user_ios_app_version" ColumnName="current_user_ios_app_version" />
+                <ScalarProperty Name="current_driver_android_app_version" ColumnName="current_driver_android_app_version" />
+                <ScalarProperty Name="current_driver_ios_app_version" ColumnName="current_driver_ios_app_version" />
+                <ScalarProperty Name="location_range_miles" ColumnName="location_range_miles" />
+                <ScalarProperty Name="driveravailabilityrange_min" ColumnName="driveravailabilityrange_min" />
+                <ScalarProperty Name="searchdriverbuffer_sec" ColumnName="searchdriverbuffer_sec" />
+                <ScalarProperty Name="adminsettingid" ColumnName="adminsettingid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Booking_trx">
+            <EntityTypeMapping TypeName="gtaxidbModel.Booking_trx">
+              <MappingFragment StoreEntitySet="Booking_trx">
+                <ScalarProperty Name="fdid_selected" ColumnName="fdid_selected" />
+                <ScalarProperty Name="manual_Assign_Datetime" ColumnName="manual_Assign_Datetime" />
+                <ScalarProperty Name="manual_Assign_AdminId" ColumnName="manual_Assign_AdminId" />
+                <ScalarProperty Name="feedbackstatus" ColumnName="feedbackstatus" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="to_locationname" ColumnName="to_locationname" />
+                <ScalarProperty Name="from_locationname" ColumnName="from_locationname" />
+                <ScalarProperty Name="last_updated" ColumnName="last_updated" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="cancelleby_flag" ColumnName="cancelleby_flag" />
+                <ScalarProperty Name="drivercall_flag" ColumnName="drivercall_flag" />
+                <ScalarProperty Name="usercall_flag" ColumnName="usercall_flag" />
+                <ScalarProperty Name="journey_End_Datetime" ColumnName="journey_End_Datetime" />
+                <ScalarProperty Name="pickup_Datetime" ColumnName="pickup_Datetime" />
+                <ScalarProperty Name="manual_Assign_Flag" ColumnName="manual_Assign_Flag" />
+                <ScalarProperty Name="est_Fares" ColumnName="est_Fares" />
+                <ScalarProperty Name="est_Distance" ColumnName="est_Distance" />
+                <ScalarProperty Name="to_lng" ColumnName="to_lng" />
+                <ScalarProperty Name="to_Lat" ColumnName="to_Lat" />
+                <ScalarProperty Name="from_lng" ColumnName="from_lng" />
+                <ScalarProperty Name="from_lat" ColumnName="from_lat" />
+                <ScalarProperty Name="request_Cartype" ColumnName="request_Cartype" />
+                <ScalarProperty Name="booking_status" ColumnName="booking_status" />
+                <ScalarProperty Name="assigned_driverId" ColumnName="assigned_driverId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="booking_datetime" ColumnName="booking_datetime" />
+                <ScalarProperty Name="bookingId" ColumnName="bookingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="City_queue">
+            <EntityTypeMapping TypeName="gtaxidbModel.City_queue">
+              <MappingFragment StoreEntitySet="City_queue">
+                <ScalarProperty Name="driverId" ColumnName="driverId" />
+                <ScalarProperty Name="kl_cityqueue" ColumnName="kl_cityqueue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Drivers">
+            <EntityTypeMapping TypeName="gtaxidbModel.Driver">
+              <MappingFragment StoreEntitySet="Driver">
+                <ScalarProperty Name="islogin_flag" ColumnName="islogin_flag" />
+                <ScalarProperty Name="flg_ace_booking" ColumnName="flg_ace_booking" />
+                <ScalarProperty Name="code_sent_date" ColumnName="code_sent_date" />
+                <ScalarProperty Name="dateofbirth" ColumnName="dateofbirth" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="activation_code" ColumnName="activation_code" />
+                <ScalarProperty Name="last_updated" ColumnName="last_updated" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="current_lng" ColumnName="current_lng" />
+                <ScalarProperty Name="current_lat" ColumnName="current_lat" />
+                <ScalarProperty Name="priority_percentage" ColumnName="priority_percentage" />
+                <ScalarProperty Name="priority" ColumnName="priority" />
+                <ScalarProperty Name="car_Type" ColumnName="car_Type" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="password_salt" ColumnName="password_salt" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="photo_url" ColumnName="photo_url" />
+                <ScalarProperty Name="car_Plate" ColumnName="car_Plate" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="ic" ColumnName="ic" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="driverId" ColumnName="driverId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Driver_token">
+            <EntityTypeMapping TypeName="gtaxidbModel.Driver_token">
+              <MappingFragment StoreEntitySet="Driver_token">
+                <ScalarProperty Name="app_type" ColumnName="app_type" />
+                <ScalarProperty Name="app_version" ColumnName="app_version" />
+                <ScalarProperty Name="deviceid" ColumnName="deviceid" />
+                <ScalarProperty Name="last_updated" ColumnName="last_updated" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="os_version" ColumnName="os_version" />
+                <ScalarProperty Name="os" ColumnName="os" />
+                <ScalarProperty Name="token_expire" ColumnName="token_expire" />
+                <ScalarProperty Name="token_salt" ColumnName="token_salt" />
+                <ScalarProperty Name="token" ColumnName="token" />
+                <ScalarProperty Name="unique_id" ColumnName="unique_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DriverBookings">
+            <EntityTypeMapping TypeName="gtaxidbModel.DriverBooking">
+              <MappingFragment StoreEntitySet="DriverBookings">
+                <ScalarProperty Name="response_datettime" ColumnName="response_datettime" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="last_updated" ColumnName="last_updated" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="bookingId" ColumnName="bookingId" />
+                <ScalarProperty Name="driverId" ColumnName="driverId" />
+                <ScalarProperty Name="driverBookingsId" ColumnName="driverBookingsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Errorlogs">
+            <EntityTypeMapping TypeName="gtaxidbModel.Errorlog">
+              <MappingFragment StoreEntitySet="Errorlog">
+                <ScalarProperty Name="errorstacktrace" ColumnName="errorstacktrace" />
+                <ScalarProperty Name="errorsource" ColumnName="errorsource" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="errormessage" ColumnName="errormessage" />
+                <ScalarProperty Name="errorlogid" ColumnName="errorlogid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Feedbacks">
+            <EntityTypeMapping TypeName="gtaxidbModel.Feedback">
+              <MappingFragment StoreEntitySet="Feedback">
+                <ScalarProperty Name="bookingid" ColumnName="bookingid" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="feedbackId" ColumnName="feedbackId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hotspots">
+            <EntityTypeMapping TypeName="gtaxidbModel.Hotspot">
+              <MappingFragment StoreEntitySet="Hotspot">
+                <ScalarProperty Name="last_updated" ColumnName="last_updated" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="hotspot_lng" ColumnName="hotspot_lng" />
+                <ScalarProperty Name="hotspot_lat" ColumnName="hotspot_lat" />
+                <ScalarProperty Name="hotspotname" ColumnName="hotspotname" />
+                <ScalarProperty Name="hotspotid" ColumnName="hotspotid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hotspotpricings">
+            <EntityTypeMapping TypeName="gtaxidbModel.Hotspotpricing">
+              <MappingFragment StoreEntitySet="Hotspotpricing">
+                <ScalarProperty Name="last_updated" ColumnName="last_updated" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="to_hotspot" ColumnName="to_hotspot" />
+                <ScalarProperty Name="from_hotspot" ColumnName="from_hotspot" />
+                <ScalarProperty Name="hotspotpricingid" ColumnName="hotspotpricingid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Journeys">
+            <EntityTypeMapping TypeName="gtaxidbModel.Journey">
+              <MappingFragment StoreEntitySet="Journey">
+                <ScalarProperty Name="last_updated" ColumnName="last_updated" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="current_lng" ColumnName="current_lng" />
+                <ScalarProperty Name="current_lat" ColumnName="current_lat" />
+                <ScalarProperty Name="current_datetime" ColumnName="current_datetime" />
+                <ScalarProperty Name="bookingId" ColumnName="bookingId" />
+                <ScalarProperty Name="journeyId" ColumnName="journeyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Preferred_driver">
+            <EntityTypeMapping TypeName="gtaxidbModel.Preferred_driver">
+              <MappingFragment StoreEntitySet="Preferred_driver">
+                <ScalarProperty Name="last_Updated" ColumnName="last_Updated" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="driverId" ColumnName="driverId" />
+                <ScalarProperty Name="preferred_driverId" ColumnName="preferred_driverId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SMShistories">
+            <EntityTypeMapping TypeName="gtaxidbModel.SMShistory">
+              <MappingFragment StoreEntitySet="SMShistory">
+                <ScalarProperty Name="phoneNo" ColumnName="phoneNo" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="driverId" ColumnName="driverId" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="smshistoryId" ColumnName="smshistoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suggested_Location">
+            <EntityTypeMapping TypeName="gtaxidbModel.Suggested_Location">
+              <MappingFragment StoreEntitySet="Suggested_Location">
+                <ScalarProperty Name="location_lng" ColumnName="location_lng" />
+                <ScalarProperty Name="location_lat" ColumnName="location_lat" />
+                <ScalarProperty Name="locationName" ColumnName="locationName" />
+                <ScalarProperty Name="locationId" ColumnName="locationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="gtaxidbModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="islogin_flag" ColumnName="islogin_flag" />
+                <ScalarProperty Name="code_sent_date" ColumnName="code_sent_date" />
+                <ScalarProperty Name="host_address" ColumnName="host_address" />
+                <ScalarProperty Name="last_updated" ColumnName="last_updated" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="activation_code" ColumnName="activation_code" />
+                <ScalarProperty Name="activation_status" ColumnName="activation_status" />
+                <ScalarProperty Name="password_salt" ColumnName="password_salt" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_token">
+            <EntityTypeMapping TypeName="gtaxidbModel.User_token">
+              <MappingFragment StoreEntitySet="User_token">
+                <ScalarProperty Name="app_type" ColumnName="app_type" />
+                <ScalarProperty Name="app_version" ColumnName="app_version" />
+                <ScalarProperty Name="deviceId" ColumnName="deviceId" />
+                <ScalarProperty Name="last_updated" ColumnName="last_updated" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="os_version" ColumnName="os_version" />
+                <ScalarProperty Name="os" ColumnName="os" />
+                <ScalarProperty Name="token_expire" ColumnName="token_expire" />
+                <ScalarProperty Name="token_salt" ColumnName="token_salt" />
+                <ScalarProperty Name="token" ColumnName="token" />
+                <ScalarProperty Name="unique_id" ColumnName="unique_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

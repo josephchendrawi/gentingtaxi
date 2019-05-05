@@ -1,0 +1,193 @@
+﻿@model GentingTaxi.Models.BookingTrx
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/Content/plugins/datatables/dataTables.bootstrap.css")" rel="stylesheet" type="text/css" />
+}
+@section Title { @ViewBag.Title }
+
+<!-- Small boxes (Stat box) -->
+<div class="row">
+    <div class="col-lg-4">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3 id="DriverCount"><i class="fa fa-refresh fa-spin"></i></h3>
+                <p>Drivers</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-car"></i>
+            </div>
+            <a href="@Url.Action("List","Driver")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+    <div class="col-lg-4">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3 id="UserCount"><i class="fa fa-refresh fa-spin"></i></h3>
+                <p>User Registrations</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a href="@Url.Action("List","User")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+    <div class="col-lg-4">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3 id="BookingCount"><i class="fa fa-refresh fa-spin"></i></h3>
+                <p>Booking Transactions</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-clipboard"></i>
+            </div>
+            <a href="@Url.Action("List","BookingTrx")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+</div><!-- /.row -->
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <i class="fa fa-book"></i> Pending Bookings
+            </div><!-- /.box-header -->
+
+            <div class="box-body">
+                <table id="tbl-list" class="table table-striped table-bordered table-hover table-condensed" style="width:99%;">
+                    <thead>
+                        <tr>
+                            <th>@Html.LabelFor(m => m.BookingTrxId)</th>
+                            <th>@Html.LabelFor(m => m.BookingDateTime)</th>
+                            <th>@Html.LabelFor(m => m.FromLocation)</th>
+                            <th>@Html.LabelFor(m => m.ToLocation)</th>
+                            <th>@Html.LabelFor(m => m.Status)</th>
+                            <th>@Html.LabelFor(m => m.CreatedDateText)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+
+@section Scripts {
+    <!-- DATA TABES SCRIPT -->
+    <script src="@Url.Content("~/Content/plugins/datatables/jquery.dataTables.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/plugins/datatables/dataTables.bootstrap.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            loadListTable();
+
+            $("#tbl-list").on("click", "[name='assignBtn[]']", function () {
+                var tr = $(this).closest("tr");
+                var Id = tr.find("[name='Id[]']").val();
+
+                window.location.href = "@Url.Action("Assign", "BookingTrx")/" + Id;
+            })
+        });
+
+        function loadListTable() {
+            var oTable = $("#tbl-list").DataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("ListBookingTrx", "BookingTrx")?Status=0&ManualAssign=1",
+                "bProcessing": true,
+                "iDisplayLength": 10,
+                "sDom": 'rpit',
+                "bStateSave": true,
+                "fnStateSave": function (oSettings, oData) {
+                    localStorage.setItem('DataTablesDashboardPendingBookingTrx', JSON.stringify(oData));
+                },
+                "fnStateLoad": function (oSettings) {
+                    return JSON.parse(localStorage.getItem('DataTablesDashboardPendingBookingTrx'));
+                },
+                "aoColumns": [
+                        {
+                            "mData": "BookingTrxId",
+                            "sName": "BookingTrxId",
+                            "fnRender": function (Obj) {
+                                return Obj.aData['BookingTrxId'] + "<input type='hidden' value='" + Obj.aData['BookingTrxId'] + "' name='Id[]' />";
+                            },
+                            "iDataSort": 0,
+                            "sWidth": "3%"
+                        },
+                        {
+                            "mData": "BookingDateTimeText",
+                            "iDataSort": 3,
+                            "sWidth": "15%"
+                        },
+                        {
+                            "mData": "FromLocation",
+                            "iDataSort": 4,
+                            "sWidth": "30%"
+                        },
+                        {
+                            "mData": "ToLocation",
+                            "iDataSort": 5,
+                            "sWidth": "30%"
+                        },
+                        {
+                            "mData": "StatusVM.StatusName",
+                            "fnRender": function (Obj) {
+                                return '<a class="btn btn-sm btn-flat btn-' + Obj.aData['StatusVM']['StatusColor'] + ' no-event">' + Obj.aData['StatusVM']['StatusName'] + '</a>';
+                            },
+                            "iDataSort": 6,
+                            "sWidth": "7%"
+                        },
+                        {
+                            "mData": "CreatedDateText",
+                            "iDataSort": 5,
+                            "sWidth": "15%"
+                        },
+                        {
+                            "mData": null,
+                            "bSortable": false,
+                            "mRender": function (data, type, full) {
+                                return '<a class="btn btn-sm btn-default" name="assignBtn[]">' +
+                                    '<i class="fa fa-check-circle"></i> View</a>';
+                            },
+                            "sWidth": "8%"
+                        },
+                ],
+                "fnDrawCallback": function (oSettings) {
+                    fetch_overall_usage();
+                }
+            });
+
+            //add class to jquery.datatables filter
+            $('.dataTables_length select').addClass("btn btn-default");
+            $('.dataTables_filter input').addClass("form-control");
+        }
+    </script>
+}
+
+<script type="text/javascript">
+    function fetch_overall_usage() {
+        $.ajax({
+            url: '@Url.Action("GetOverallUsage","Home")',
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                $('#DriverCount').html(data['DriverCount']);
+                $('#UserCount').html(data['UserCount']);
+                $('#BookingCount').html(data['BookingCount']);
+            },
+            error: function (xhr) {
+                alert('error');
+            }
+        });
+    }
+</script>

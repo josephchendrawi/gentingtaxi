@@ -1,0 +1,2 @@
+alter table booking_trx
+add fdid_selected int null

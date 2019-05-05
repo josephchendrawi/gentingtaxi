@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Push Notification";
+}
+
+<h2>Push Notification</h2>
+<div class="container">
+    <ul id="discussion"></ul>
+</div>
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-1.1.4.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function () {
+            // Reference the auto-generated proxy for the hub.
+            var chat = $.connection.notificationHub;
+            // Create a function that the hub can call back to display messages.
+            chat.client.addNotification = function (message) {
+                alert(message);
+            };
+            // Start the connection.
+            $.connection.hub.start();
+        });
+    </script>
+}
+
